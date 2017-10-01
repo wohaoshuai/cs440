@@ -1,0 +1,100 @@
+so to get start
+we need an idea of how this works
+
+basically
+we need to read from the input
+and decide which method we are going to perform
+
+first is to read
+the strategy as simplest as it can be is just transform the representation
+to a 2-d array representation,
+and extract the state of the map,
+as well as how we can make transition.
+
+at the beginning,
+we would like to define the width and height,
+this can be done by scanning the map,
+and max(each_line_length) as width
+and (count_line) as height
+
+all the empty position defines the possible state of blocks,
+and P defines the man,
+for instance, if we have 30 empty places,
+then we will have many states,
+any box can be at any position,
+which is not true,
+that's an overestimate that makes the life easy.
+In this case, we keep track of a list of boxes(5) let's say in a 6 * 6 spaces,
+then the possibility of the state becoem nm*C(nm, b) i.e. 36 * C (36, 5) = 13571712
+a rather huge state space
+the real problem comes to calculate the state using dynamic programming in reasoanble time.
+it's important to know that the state varies,
+and it's almost impossible to solve individual problems like that
+
+so the state can simple be a tuple of points, and consisting of sets that matches it with a hash to keep the state,
+the way that transition function functions works is only when there is a block at the state, in which the block will be moved to
+left, right or otherwise last line or the back line.
+
+As a string, it's easy to reconstruct it - however, as python does not support mutation of a string,
+it's hard to say if this can be done in constant time.
+Apparenrtly, there's no loop at all.
+It's possible to encode everthing in a integer, or simple as a string.
+It's always possible to use a integer to represete all the state as well.
+A dictionary can be used to handle most of the case.
+A transition function can be constantly time computed while checking simple block rule.
+
+in the worst case, simply use a string with bitwise encoding is enough -> if a c string is used,
+every thing can be done in a much fancy way.
+
+
+for python, we can simply use a string to represent the state, and the leng.
+
+
+Without any concern about the effiency. The only thing we can easily come up with a datastructure to present the state of the problem.
+That is a set of tuple (presenting the box position), and a tuple which present the position of the boy.
+
+For each iteration, the state will be used and keep as viewed.
+We look for any moving state by simply viewing the four position, and check if it's possible to move.
+
+The rule is as fellows, check wall, if yes, no,
+check empty, if yes, then, yes, \
+if block, then, check the next position if empty yes, no otherwise.
+
+how can we check the current state, simply by looking at current state - indicating the position and dynamic block. we know the wall,
+by using a wall hashing. we can use a dynamic block hashing as well. - empty hashing if not neccessary.
+
+The hashing is only used for constant time checking for repeating state.
+The path must be kept but should be done with minimun way, that is the move - 1,2,3,4 as up, down, left, right.
+or otherwise a link might be created within the tuple <- way too much, but how to associate with that link,
+that is how do we know which path is which, a tree structure is required for this, preferably within the path checker,
+simply by attaching a step (action) to the state.
+
+hence, a count of the dictionary will do well in the node expaned.
+
+h will be 0 in the case of BFS,
+otherwise a pq is used to make sure a lgn time insertion for A* frontier state -> possiblly we can also check wall state for
+same h function if requried.
+the cost is kept in the hash table?
+of course not, but can be used as the value of hash -> to append useful information. but repeat state detection should not do this.
+
+of course the current position is kept as a secial state machine.
+
+Hence, in summary,
+
+we first scan input to create init state,
+that is we have current position as a tuple,
+at the same time having two dictionary - block position and other position.
+
+1.init state by scanning input
+2.check state (end here.) check repeated states history
+3.expand state (add to queue) -> add current state to history hash table
+4.dequeue new state (may end here if no solution at all.)
+5.update current state cache -> used to expand state and checking state.
+
+
+design
+
+pq_set
+(cost_function = curr_cost + h, data)
+data - snapshot the state - including all the number
+(cost, man, boxes)

@@ -1,0 +1,28 @@
+BFS
+#1
+solution costs: 8
+number of expanded nodes: 36
+running time: 0.00441408157349
+#2
+solution costs: 144
+number of expanded nodes: 44545
+running time: 6.6046359539
+#3
+solution costs: 34
+number of expanded nodes: 468493
+running time: 99.3870038986
+#4
+solution costs: 72
+number of expanded nodes: 565102
+running time: 391.690142155
+A*
+#1
+solution costs: 8
+number of expanded nodes: 24
+running time: 0.00288891792297
+#2
+solution costs: 144
+number of expanded nodes: 44497
+running time: 17.5816168785
+#3
+
